@@ -20,11 +20,11 @@ function App() {
   const [domains, setDomains] = useState([])
 
   const loadBlockchainData = async () => {
-    const provider = new ethers.providers.Web3Provider(window.ethereum)
+    const provider = new ethers.providers.Web3Provider(window.ethereum) //connects ethers to metamask and metamask connects to the blockchain
     setProvider(provider)
 
     const network = await provider.getNetwork()
-    const ethDaddy = new ethers.Contract(config[network.chainId].ETHDaddy.address, ETHDaddy, provider)
+    const ethDaddy = new ethers.Contract(config[network.chainId].ETHDaddy.address, ETHDaddy, provider) //call for the JS version of deployed contract
     setETHDaddy(ethDaddy)
 
     const maxSupply = await ethDaddy.maxSupply()
@@ -37,6 +37,7 @@ function App() {
 
     setDomains(domains)
 
+    //detect when account changes from metamask and reflect
     window.ethereum.on('accountsChanged', async () => {
       const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
       const account = ethers.utils.getAddress(accounts[0])
@@ -44,6 +45,7 @@ function App() {
     })
   }
 
+  //Fire up the LoadBlockchainData function
   useEffect(() => {
     loadBlockchainData()
   }, [])
@@ -55,7 +57,7 @@ function App() {
       <Search />
 
       <div className='cards__section'>
-        <h2 className='cards__title'>Why you need a domain name.</h2>
+        <h2 className='cards__title'>Do you need a domain name?</h2>
         <p className='cards__description'>
           Own your custom username, use it across services, and
           be able to store an avatar and other profile data.

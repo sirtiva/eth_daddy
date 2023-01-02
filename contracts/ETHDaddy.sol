@@ -8,12 +8,14 @@ contract ETHDaddy is ERC721 {
     uint256 public totalSupply;
     address public owner;
 
+    //model a domain
     struct Domain {
         string name;
         uint256 cost;
         bool isOwned;
     }
 
+    //saving the Domain on the blockchain
     mapping(uint256 => Domain) domains;
 
     modifier onlyOwner() {
@@ -27,10 +29,12 @@ contract ETHDaddy is ERC721 {
         owner = msg.sender;
     }
 
+    //list your domain
     function list(string memory _name, uint256 _cost) public onlyOwner {
         maxSupply++;
         domains[maxSupply] = Domain(_name, _cost, false);
     }
+
 
     function mint(uint256 _id) public payable {
         require(_id != 0);
